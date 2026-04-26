@@ -35,3 +35,158 @@
 - 이석호 (데이터 수집, DB 관리)
 - 이찬준 (모델링, ETF 데이터)
 - 함민식 (백엔드, API)
+  
+# 📝 Commit Convention
+
+[Conventional Commits](https://www.conventionalcommits.org/) 기반 커밋 규칙.
+PR 머지 / changelog 자동화.
+
+<br>
+
+## 한 줄 요약
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+- `type`, `subject`만 필수, 나머지는 선택
+- 각 블록 사이는 **빈 줄 한 줄**로 구분
+
+<br>
+
+## Type
+
+| Type       | 언제 쓰는데?                                     |
+| ---------- | ------------------------------------------------ |
+| `feat`     | 새 기능 추가                                     |
+| `fix`      | 버그 수정                                        |
+| `docs`     | 문서만 수정 (README, 주석 등)                    |
+| `style`    | 포맷팅, 세미콜론 같은 것만 (동작 변경 X)         |
+| `refactor` | 기능 그대로 두고 코드만 갈아엎기                 |
+| `perf`     | 성능 개선                                        |
+| `test`     | 테스트 추가/수정                                 |
+| `build`    | 빌드/의존성 (npm, pip, gradle 등)                |
+| `ci`       | CI 설정 (GitHub Actions 등)                      |
+| `chore`    | 그 외 잡일                                       |
+| `revert`   | 이전 커밋 되돌리기                               |
+
+<br>
+
+## Subject 쓸 때 규칙
+
+- **50자 이내**
+- **명령문**으로 — `add`, `fix`, `remove` (✅)  /  `added`, `fixing` (❌)
+- **마침표 금지**
+- 영문은 소문자로 시작 (한글이면 그냥 자연스럽게)
+
+```
+✅ feat(auth): add OAuth2 login
+❌ feat(auth): Added OAuth2 login.
+```
+
+<br>
+
+## Body / Footer
+
+**Body** — "뭘 했는지" 적기. 한 줄 72자 정도에서 끊기.
+
+**Footer** — 이슈 연결 / Breaking Change 표시
+
+```
+Closes #123
+Fixes #456
+Refs #789
+```
+
+호환성 깨지는 변경은 `!` 붙이거나 footer에 명시:
+
+```
+feat(api)!: change getUser to async
+
+BREAKING CHANGE: 기존 동기 호출부 전부 await 붙여야 함
+```
+
+<br>
+
+## Scope 예시
+
+프로젝트 구조 따라 자유롭게.
+
+```
+feat(auth): ...
+fix(api): ...
+refactor(model): ...
+docs(readme): ...
+```
+
+<br>
+
+## 실제 예시
+
+**가장 단순:**
+```
+fix: typo in README
+```
+
+**scope 포함:**
+```
+feat(auth): add Google OAuth2 login
+```
+
+**본문까지:**
+```
+refactor(parser): split tokenizer into separate module
+
+parser.ts 가 1000줄 넘어가서 가독성 망함.
+토크나이저 분리해서 단위 테스트 쉽게 작성할 수 있게 함.
+
+Refs #102
+```
+
+**ML 프로젝트 예시:**
+```
+feat(model): add FashionMNIST baseline CNN
+
+Conv2d → ReLU → MaxPool → FC 구조 baseline.
+test accuracy 89.4%.
+
+Refs #5
+```
+
+<br>
+
+## 권장사항
+
+- **커밋 1개 = 변경 1개.** 섞이면 `git add -p` 로 쪼개기
+- **WIP 커밋 금지** (어쩔 수 없으면 머지 전 squash)
+- PR을 **Squash and merge** 로 머지하면 PR 제목이 곧 커밋이 되니까, **PR 제목도 같은 컨벤션** 으로 쓰기
+
+<br>
+
+## 치트시트 🧾
+
+```
+feat:     기능 추가
+fix:      버그 수정
+docs:     문서
+style:    포맷팅
+refactor: 리팩터링
+perf:     성능
+test:     테스트
+build:    빌드/의존성
+ci:       CI
+chore:    잡일
+revert:   되돌리기
+```
+
+```
+<type>(<scope>): <subject>   ← 50자, 명령문, 마침표 ❌
+
+<body>                       ← "왜" 했는지, 72자 줄바꿈
+
+<footer>                     ← Closes #123 / BREAKING CHANGE
+```
